@@ -97,4 +97,4 @@ var makeHand = function(){
 
 
 
-console.log(drawCard());
+console.log(twentyFive);
