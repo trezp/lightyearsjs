@@ -1,16 +1,16 @@
 
 
-//Card constructor. Gives Card a "miles" property if a mileage card. 
-//Adds "immunity" property if an immunity card. 
-//Assigns the card a value. If not a mileage card, the value is zero. 
+
+
 //ADD REMEDY CARD
 //ADD HAZARD CARD
-
+//Card constructor. Gives Card a "miles" property if a mileage card. 
 var Card = function(name, cardType, cardValue) {
 	this.name = name;  
 	this.cardType = cardType;
 	this.cardValue = cardValue; 
 
+//Adds "immunity" property if an immunity card. 
 	if (this.cardType === "immunity"){
 		this.immunity = true;
 	} else {
@@ -20,6 +20,7 @@ var Card = function(name, cardType, cardValue) {
 		this.canMove = function(){
 			return "The car is moving"
 		};
+//If not a mileage card, the value of the card is zero. 
 	if (cardType != "mileage"){
 		this.cardValue = 0; 
 	};
@@ -31,20 +32,27 @@ var goCard = new Card("Go", "remedy");
 var stopCard = new Card("Stop", "hazard");
 var drivingAce = new Card("Driving Ace", "immunity");
 var fifty = new Card("50", "mileage", 50);
+var hundred = new Card("100", "mileage", 100); 
 
-//Set the score to zero. Check if the cardType is "mileage". If true, adds the card value 
-//to the score. If hazard or remedy, returns a string and does not effect the score. 
-var score = 0 
-
-var getScore = function(card){
-	if (card.cardType === "mileage"){
-		score = score + card.cardValue
-		return score 
-	} else if (card.cardType === "hazard") {
-		return "You can't go nowhere!"
-	} else if (card.cardType === "remedy"){
-		return "You may now move again!"
+//if card has a value > 0, assigns to miles, executes updateScore(); 
+var getMiles = function(card){
+	miles = card.cardValue;
+	if (miles > 0) {
+		updateScore();
+		return miles 
 	};
+};
+
+//adds card value to mileage. When getMiles executes updateScore, the
+//mileage updates but "You win!" does not print at 200. FIX IT FIX IT
+mileage = 0
+var updateScore = function(){
+	if(mileage <= 200){
+		mileage = miles + mileage
+		console.log("Mileage is " + mileage)
+	} else {
+		console.log("You win!")
+	}
 };
 
 // game 
