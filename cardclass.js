@@ -2,27 +2,50 @@
 
 //Card constructor. Gives Card a "miles" property if a mileage card. 
 //Adds "immunity" property if an immunity card. 
+//Assigns the card a value. If not a mileage card, the value is zero. 
 //ADD REMEDY CARD
 //ADD HAZARD CARD
 
-var Card = function(name, cardType, miles) {
+var Card = function(name, cardType, cardValue) {
 	this.name = name;  
 	this.cardType = cardType;
+	this.cardValue = cardValue; 
 
-	if (this.cardType === "mileage"){
-		this.miles = miles;
-	} else {
-		this.miles = false; 
-	};
 	if (this.cardType === "immunity"){
 		this.immunity = true;
 	} else {
 		this.immunity = false;
 	};
+	if (this.cardType === "remedy"){
+		this.canMove = function(){
+			return "The car is moving"
+		};
+	if (cardType != "mileage"){
+		this.cardValue = 0; 
+	};
+	};
 };
 
-var twentyFive = new Card("25", "mileage");
+var twentyFive = new Card("25", "mileage", 25);
+var goCard = new Card("Go", "remedy");
+var stopCard = new Card("Stop", "hazard");
+var drivingAce = new Card("Driving Ace", "immunity");
+var fifty = new Card("50", "mileage", 50);
 
+//Set the score to zero. Check if the cardType is "mileage". If true, adds the card value 
+//to the score. If hazard or remedy, returns a string and does not effect the score. 
+var score = 0 
+
+var getScore = function(card){
+	if (card.cardType === "mileage"){
+		score = score + card.cardValue
+		return score 
+	} else if (card.cardType === "hazard") {
+		return "You can't go nowhere!"
+	} else if (card.cardType === "remedy"){
+		return "You may now move again!"
+	};
+};
 
 // game 
 //	 > has a player 
