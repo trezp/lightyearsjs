@@ -1,36 +1,4 @@
-//Takes in player names as arguments
-function Game( /*player names*/ ){
-//creates an array of players
-	this.players = [];
-	//calls deck function, instantiates new deck
-	this.deck = new Deck();
-	for (var i = 0; i < arguments.length; i++) {
-		//instantiates a new player for every player argument received
-		//new Player instance takes the index of argument so that an array of
-		//players is not passed to new player
-		var newPlayer = new Player(arguments[i])
-		//pushes new newPlayer into this.players array
-		this.players.push(newPlayer);
-		//passes new player instance into deal function
-		this.deck.deal(newPlayer);
-		};
-};
 
-function Player(playerName){
-	//MAKE THIS SO PLAYERS CAN INPUT NAMES
-	//input field for names with "Start Game" button
-	//names taken in as array, converted into comma-seperated list
-	this.playerName = playerName;
-	 ;
-};
-	Deck.prototype.deal = function(player, numToDeal) {
-	//Sets default number of cards dealt to 6
-	numToDeal = numToDeal || 6
-	for (var i = 0; i < numToDeal; i++) {
-	//deals 6 random cards and pushes to player's hand array
-	player.hand.push(this.drawRandom());
-	};
-};
 //Card constructors
 function Card () {
 };
@@ -108,4 +76,39 @@ Deck.prototype.drawRandom = function() {
 	//instead of an array is returned
 	var cardDrawn = this.cards.splice(index, 1)[0];
 	return cardDrawn;
+};
+
+//Takes in player names as arguments
+function Game( /*player names*/ ){
+//creates an array of players
+	this.players = [];
+	//calls deck function, instantiates new deck
+	this.deck = new Deck();
+	for (var i = 0; i < arguments.length; i++) {
+		//instantiates a new player for every player argument received
+		//new Player instance takes the index of argument so that an array of
+		//players is not passed to new player
+		var newPlayer = new Player(arguments[i])
+		//pushes new newPlayer into this.players array
+		this.players.push(newPlayer);
+		//passes new player instance into deal function
+		this.deck.deal(newPlayer);
+		};
+};
+
+function Player(playerName){
+	//MAKE THIS SO PLAYERS CAN INPUT NAMES
+	//input field for names with "Start Game" button
+	//names taken in as array, converted into comma-seperated list
+	this.playerName = playerName;
+	this.hand = [];
+
+};
+	Deck.prototype.deal = function(player, numToDeal) {
+	//Sets default number of cards dealt to 6
+	numToDeal = numToDeal || 6
+	for (var i = 0; i < numToDeal; i++) {
+	//deals 6 random cards and pushes to player's hand array
+	player.hand.push(this.drawRandom());
+	};
 };
