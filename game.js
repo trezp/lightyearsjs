@@ -1,42 +1,45 @@
 
 var play = document.getElementById("play")
-play.addEventListener('click', getPlayerNames, false)
+play.addEventListener('click', gameEngine, false)
 
 //TO DO
-playerStack
-incrementScore 
-checkScore
-slowPlayer
-playCard
-discardCard
+// playerStack
+// incrementScore 
+// checkScore
+// slowPlayer
+// playCard
+// discardCard
 
+    var players = []
 
+  function getPlayerNames(){
+    
+    var names = prompt("Please enter up to four player names");
+    var splitPlayers = names.split(',');
+    
+    for(i = 0; i < splitPlayers.length; i++){
+      var playerList = splitPlayers[i];
+      players.push(playerList);    
+    };
+    
+  };
 
-
-
-var players = []
-//takes in player names, splits them up and puts them into players array.
-//Now how to pass them to game?
-//game.prototype.getPlayerNames
-function getPlayerNames(){
   
-  var names = prompt("Please enter up to four player names");
-  var splitPlayers = names.split(',');
+
+
+function gameEngine(){
+  getPlayerNames();
+  game = new Game(players);
   
-  for(i = 0; i < splitPlayers.length; i++){
-    var playerList = splitPlayers[i];
-    players.push(playerList);    
+  for(i = 0; i < game.playerList; i++){
+    document.write(game.playerList[i])
   }
-  return players
 }
-
-
-
 
 //Takes in player names as arguments
 function Game(){
   //creates an array of players
-  this.players = [];
+  this.playerList = [];
   //calls deck function, instantiates new deck 
   this.deck = new Deck();
   
@@ -44,10 +47,10 @@ function Game(){
  //instantiates a new player for every player argument received 
     //new Player instance takes the index of argument so that an array of
     //players is not passed to new player
-  for (var i = 0; i < newPlayer.length; i++) {
-    var newPlayer = new Player(newPlayer[i])
+  for (var i = 0; i < players.length; i++) {
+    var newPlayer = new Player(players[i]);
     //pushes new newPlayer into this.players array 
-    this.players.push(newPlayer);
+    this.playerList.push(newPlayer);
     //passes new player instance into deal function
     this.deck.deal(newPlayer);
   };
@@ -59,8 +62,8 @@ function Player(playerName){
   //names taken in as array, converted into comma-seperated list 
   this.playerName = playerName;
   this.hand = [];
-  this.stack = stack;
-  this.score = 0; 
+  // this.stack = stack;
+  // this.score = 0; 
 
 };
 
@@ -160,3 +163,4 @@ Deck.prototype.drawRandom = function() {
   var cardDrawn = this.cards.splice(index, 1)[0];
   return cardDrawn;
 };
+
