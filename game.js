@@ -7,7 +7,6 @@
 // discardCard
 
 //Current issues: 
-  //User is alerted to input player names. Should be a form. 
   //player names and individual cards are cumbersome to access
     //cards are referenced first by hazard or remedy, which isn't helpful to me
     //or players 
@@ -16,8 +15,8 @@
 
 (function(){
 
-  
-  function Card () {
+//Card constructors
+function Card () {
 };
 
 function MileageCard (title, miles) {
@@ -36,8 +35,8 @@ function RemedyCard (title, fixes) {
 };
 
 function ImmunityCard (title, prevents) {
-this.title = title;
-this.prevents = prevents;
+  this.title = title;
+  this.prevents = prevents;
 };
 
 function Deck () {
@@ -113,34 +112,47 @@ function Game( /*player names*/ ){
     //passes new player instance into deal function
     this.deck.deal(newPlayer);
     };
-};
-
-function Player(playerName){
-  //MAKE THIS SO PLAYERS CAN INPUT NAMES
-  //input field for names with "Start Game" button
-  //names taken in as array, converted into comma-seperated list
-  this.playerName = playerName;
-  this.hand = [];
 
 };
-  Deck.prototype.deal = function(player, numToDeal) {
-  //Sets default number of cards dealt to 6
-  numToDeal = numToDeal || 6
-  for (var i = 0; i < numToDeal; i++) {
-  //deals 6 random cards and pushes to player's hand array
-  player.hand.push(this.drawRandom());
+
+  function Player(playerName){
+    //MAKE THIS SO PLAYERS CAN INPUT NAMES
+    //input field for names with "Start Game" button
+    //names taken in as array, converted into comma-seperated list
+    this.playerName = playerName;
+    this.hand = [];
+    this.score = 0; 
+    this.stalled = true;
+
   };
-};
-game = new Game("Treasure", "Bob", "Joe");
- 
- function test(){
-  console.log(game.players[i])
-};
-for(i = 0; i < game.players.length; i++){
-  test();
-}
+
+    Deck.prototype.deal = function(player, numToDeal) {
+    //Sets default number of cards dealt to 6
+    numToDeal = numToDeal || 6
+    for (var i = 0; i < numToDeal; i++) {
+    //deals 6 random cards and pushes to player's hand array
+    player.hand.push(this.drawRandom());
+    };
+  }
+
+game = new Game("Bob", "Joe", "Jim", "Treasure");
+
+//access individual player names = game.players[i].playerName;
+//access individual cards = game.players[i].hand[i].title;
+  function keepScore(){
+    count = 0;
+    if(game.players[1].hand[1].miles){
+      var score = count + game.players[1].hand[1].miles
+      console.log(score);
+    } else {
+      console.log("You do not have a go card")
+    }
+  }
+  keepScore();
+
+    
 })();
-//Card constructors
+
 
 
 
