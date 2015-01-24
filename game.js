@@ -112,8 +112,26 @@ function Game( /*player names*/ ){
     //passes new player instance into deal function
     this.deck.deal(newPlayer);
     };
-
 };
+
+  currentPlayerIndex = 0;
+  //returns the current player in the player array by index
+  Game.prototype.getCurrentPlayer = function(){
+    while(currentPlayerIndex < this.players.length){
+    return this.players[currentPlayerIndex];     
+    }
+  }
+  //loops through the player array by incrementing the currentPlayerIndex
+  Game.prototype.executeTurn = function(){
+      var currentPlayer = this.getCurrentPlayer();
+      currentPlayerIndex++;
+      //resets currentPlayerIndex to 0 when loop reaches the end of player array
+      if (currentPlayerIndex === this.players.length){
+        currentPlayerIndex = 0;
+      }
+      console.log(currentPlayer);
+      }
+
 
   function Player(playerName){
     //MAKE THIS SO PLAYERS CAN INPUT NAMES
@@ -121,6 +139,7 @@ function Game( /*player names*/ ){
     //names taken in as array, converted into comma-seperated list
     this.playerName = playerName;
     this.hand = [];
+    this.stack = [];
     this.score = 0; 
     this.stalled = true;
 
@@ -135,20 +154,20 @@ function Game( /*player names*/ ){
     };
   }
 
-game = new Game("Bob", "Joe", "Jim", "Treasure");
+game = new Game("Bob", "Joe", "Jim", "Treasure", "Tim");
 
 //access individual player names = game.players[i].playerName;
 //access individual cards = game.players[i].hand[i].title;
-  function keepScore(){
-    count = 0;
-    if(game.players[1].hand[1].miles){
-      var score = count + game.players[1].hand[1].miles
-      console.log(score);
-    } else {
-      console.log("You do not have a go card")
-    }
-  }
-  keepScore();
+  // function keepScore(){
+  //   count = 0;
+  //   if(game.players[1].hand[1].miles){
+  //     var score = count + game.players[1].hand[1].miles
+  //     console.log(score);
+  //   } else {
+  //     console.log("You do not have a go card")
+  //   }
+  // }
+  // keepScore();
 
     
 })();
