@@ -16,27 +16,11 @@
 (function(){
 
 //Card constructors
-function Card () {
-};
-
-function MileageCard (title, miles) {
-  this.title = title; 
-  this.miles = miles;
-
-};
-
-function HazardCard (title) {
+function Card (title, value, stops, slows) {
   this.title = title;
-};
-
-function RemedyCard (title, fixes) {
-  this.title = title;
-  this.fixes = fixes;
-};
-
-function ImmunityCard (title, prevents) {
-  this.title = title;
-  this.prevents = prevents;
+  this.value = value; 
+  this.stops = false;
+  this.slows = false;  
 };
 
 function Deck () {
@@ -44,39 +28,48 @@ function Deck () {
   this.discarded = [];
   //pushes new card instances into this.cards array
   for (var i = 0; i < 10; i++) {
-    this.cards.push(new MileageCard("25miles", 25));
-    this.cards.push(new MileageCard("50miles",50));
-    this.cards.push(new MileageCard("75miles",75));
+    this.cards.push(new Card("25miles", 25));
+    this.cards.push(new Card("50miles",50));
+    this.cards.push(new Card("75miles",75));
   };
   for (var i = 0; i < 12; i++) {
-    this.cards.push(new MileageCard("100miles",100));
+    this.cards.push(new Card("100miles",100));
   };
   for (var i = 0; i < 4; i++) {
-    this.cards.push(new MileageCard("200miles",200));
+    this.cards.push(new Card("200miles",200));
   };
   for (var i = 0; i < 5; i++) {
-    this.cards.push(new HazardCard("Stop"));
+    this.cards.push(new Card("Stop", 0, true, false));
   };
   for (var i = 0; i < 3; i++) {
-    this.cards.push(new HazardCard("Out of Gas"));
-    this.cards.push(new HazardCard("Accident"));
-    this.cards.push(new HazardCard("Flat Tire"));
-    this.cards.push(new HazardCard("Speed Limit"));
+    this.cards.push(new Card("Out of Gas", 0, true, false));
+    this.cards.push(new Card("Accident", 0, true, false));
+    this.cards.push(new Card("Flat Tire", 0, true, false));
+    this.cards.push(new Card("Speed Limit", 0, true, true));
   };
   for (var i = 0; i < 14; i++) {
-    this.cards.push(new RemedyCard("Go", "Stop"));
+    this.cards.push(new Card("Go"));
   };
   for (var i = 0; i < 6; i++) {
-    this.cards.push(new RemedyCard("Gas", "Out of Gas"));
-    this.cards.push(new RemedyCard("Repairs", "Accident"));
-    this.cards.push(new RemedyCard("Spare Tire", "Flat Tire"));
-    this.cards.push(new RemedyCard("End of Speed Limit", "Speed Limit"));
+    this.cards.push(new Card("Gas"));
+    this.cards.push(new Card("Repairs"));
+    this.cards.push(new Card("Spare Tire"));
+    this.cards.push(new Card("End of Speed Limit"));
   };
-    this.cards.push(new ImmunityCard("Driving Ace", "Speed Limit"));
-    this.cards.push(new ImmunityCard("Emergency Vehicle", "Accident"));
-    this.cards.push(new ImmunityCard("Fuel Truck", "Out of Gas"));
-    this.cards.push(new ImmunityCard("Puncture Proof", "Flat Tire"));
+    this.cards.push(new Card("Driving Ace"));
+    this.cards.push(new Card("Emergency Vehicle"));
+    this.cards.push(new Card("Fuel Truck"));
+    this.cards.push(new Card("Puncture Proof"));
 };
+
+Deck.prototype.deal = function(player, numToDeal) {
+    //Sets default number of cards dealt to 6
+    numToDeal = numToDeal || 6
+    for (var i = 0; i < numToDeal; i++) {
+    //deals 6 random cards and pushes to player's hand array
+    player.hand.push(this.drawRandom());
+    };
+  }
 
 Deck.prototype.drawRandom = function() {
 //checks if there are cards left in the deck
@@ -114,26 +107,40 @@ function Game( /*player names*/ ){
     };
 };
 
+Game.prototype.getPlayerByName = function(playerName) {
+  for (i = 0; i < this.players.length; i++) {
+    if (this.players[i]['playerName'].toLowerCase == playerName.toLowerCase) { 
+      
+    } 
+  }; 
+  return this.players[i];
+}
+
   currentPlayerIndex = 0;
   //returns the current player in the player array by index
-  Game.prototype.getCurrentPlayer = function(){
+Game.prototype.getCurrentPlayer = function(){
     while(currentPlayerIndex < this.players.length){
     return this.players[currentPlayerIndex];     
     }
   }
   //loops through the player array by incrementing the currentPlayerIndex
-  Game.prototype.executeTurn = function(){
+Game.prototype.executeTurn = function(){
       var currentPlayer = this.getCurrentPlayer();
       currentPlayerIndex++;
       //resets currentPlayerIndex to 0 when loop reaches the end of player array
       if (currentPlayerIndex === this.players.length){
         currentPlayerIndex = 0;
       }
-      console.log(currentPlayer);
+      return(currentPlayer)
       }
 
+  Game.prototype.displayHand = function() {
+    this.players.forEach(console.log(this.players.hand))
+  };
 
-  function Player(playerName){
+   
+
+function Player(playerName){
     //MAKE THIS SO PLAYERS CAN INPUT NAMES
     //input field for names with "Start Game" button
     //names taken in as array, converted into comma-seperated list
@@ -145,17 +152,7 @@ function Game( /*player names*/ ){
 
   };
 
-    Deck.prototype.deal = function(player, numToDeal) {
-    //Sets default number of cards dealt to 6
-    numToDeal = numToDeal || 6
-    for (var i = 0; i < numToDeal; i++) {
-    //deals 6 random cards and pushes to player's hand array
-    player.hand.push(this.drawRandom());
-    };
-  }
-
 game = new Game("Bob", "Joe", "Jim", "Treasure", "Tim");
-
 //access individual player names = game.players[i].playerName;
 //access individual cards = game.players[i].hand[i].title;
   // function keepScore(){
