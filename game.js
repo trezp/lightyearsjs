@@ -13,7 +13,7 @@
   //needs to be refactored so everything isn't in the global scope
 
 
-(function(){
+
 
 //Card constructors
 function Card (title, value, stops, slows) {
@@ -93,6 +93,7 @@ Deck.prototype.drawRandom = function() {
 function Game( /*player names*/ ){
 //creates an array of players
   this.players = [];
+  this.currentPlayerIndex = 0;
   //calls deck function, instantiates new deck
   this.deck = new Deck();
   for (var i = 0; i < arguments.length; i++) {
@@ -109,50 +110,69 @@ function Game( /*player names*/ ){
 
 Game.prototype.getPlayerByName = function(playerName) {
   for (i = 0; i < this.players.length; i++) {
-    if (this.players[i]['playerName'].toLowerCase == playerName.toLowerCase) { 
-      
+    if (this.players[i]['playerName'].toLowerCase() == playerName.toLowerCase()) { 
+      return this.players[i];
     } 
   }; 
-  return this.players[i];
+}
+//returns the current player in the player array by index
+Game.prototype.getCurrentPlayer = function(){
+  while(this.currentPlayerIndex < this.players.length){
+  return this.players[this.currentPlayerIndex];     
+  }
+}
+//loops through the player array by incrementing the this.currentPlayerIndex
+Game.prototype.executeTurn = function(){
+  var currentPlayer = this.getCurrentPlayer();
+  this.currentPlayerIndex++;
+  //resets this.currentPlayerIndex to 0 when loop reaches the end of player array
+  if (this.currentPlayerIndex === this.players.length){
+    this.currentPlayerIndex = 0;
+  }
+  return(currentPlayer)
+};
+
+Game.prototype.getHand = function(){
+  return this.getCurrentPlayer().hand
 }
 
-  currentPlayerIndex = 0;
-  //returns the current player in the player array by index
-Game.prototype.getCurrentPlayer = function(){
-    while(currentPlayerIndex < this.players.length){
-    return this.players[currentPlayerIndex];     
+Game.prototype.displayHand = function() {
+    var cards = this.getCurrentPlayer().hand
+    for(var i = 0; i < cards.length; i++){
+      console.log(cards[i].title);
     }
-  }
-  //loops through the player array by incrementing the currentPlayerIndex
-Game.prototype.executeTurn = function(){
-      var currentPlayer = this.getCurrentPlayer();
-      currentPlayerIndex++;
-      //resets currentPlayerIndex to 0 when loop reaches the end of player array
-      if (currentPlayerIndex === this.players.length){
-        currentPlayerIndex = 0;
-      }
-      return(currentPlayer)
-      }
+};
 
-  Game.prototype.displayHand = function() {
-    this.players.forEach(console.log(this.players.hand))
-  };
+Game.prototype.getPlayerChoice = function (){
+  var cardChoice = parseInt(prompt("Press 0 - 5 to choose a card"));
+  console.log(this.getCurrentPlayer().hand[cardChoice])
+};
 
-   
-
+  
 function Player(playerName){
-    //MAKE THIS SO PLAYERS CAN INPUT NAMES
-    //input field for names with "Start Game" button
-    //names taken in as array, converted into comma-seperated list
-    this.playerName = playerName;
-    this.hand = [];
-    this.stack = [];
-    this.score = 0; 
-    this.stalled = true;
+  //MAKE THIS SO PLAYERS CAN INPUT NAMES
+  //input field for names with "Start Game" button
+  //names taken in as array, converted into comma-seperated list
+  this.playerName = playerName;
+  this.hand = [];
+  this.stack = [];
+  this.score = 0; 
+  this.stalled = true;
 
-  };
+};
+
+function runTests(){
+  var game = new Game("Bob", "Joe", "Jim", "Treasure", "Tim");
+  console.assert(game.players.length === 5, "The number of players should be 5");
+
+  console.assert(game.currentPlayerIndex === 0, "The current player index is 0")
+  curPlayer = game.executeTurn()
+  console.assert(game.currentPlayerIndex === 1, "The current player index should increment")
+  console.assert(curPlayer instanceof Player, "executeTurn returns a Player")
+}
 
 game = new Game("Bob", "Joe", "Jim", "Treasure", "Tim");
+
 //access individual player names = game.players[i].playerName;
 //access individual cards = game.players[i].hand[i].title;
   // function keepScore(){
@@ -166,8 +186,15 @@ game = new Game("Bob", "Joe", "Jim", "Treasure", "Tim");
   // }
   // keepScore();
 
+//Each turn:
+  //draw a card 
+  //play a card or discard a card 
+    //play a go card, a safety card, or a speed limit
+    //you can't fuck over another player unless they are traveling
+  //mileage card: increment score 
+  //safety card: player is able to move 
+  //hazard card: change other player's ability to move 
     
-})();
 
 
 
