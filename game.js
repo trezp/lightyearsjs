@@ -132,29 +132,37 @@ Game.prototype.executeTurn = function(){
   return(currentPlayer)
 };
 
+//returns the hand of the current player
 Game.prototype.getHand = function(){
   return this.getCurrentPlayer().hand
 }
 
+//loops through and logs the cards individually so the player can choose by number.
 Game.prototype.displayHand = function() {
     var cards = this.getCurrentPlayer().hand
     for(var i = 0; i < cards.length; i++){
-      console.log([i] + "." + cards[i].title);
+      //displays increment at 1 instead of 0
+      console.log([i + 1] + ". " + cards[i].title);
     }
 };
 
-Game.prototype.getPlayerChoice = function (){
+//prompts user to choose a card, returns the title of the chosen card 
+Game.prototype.promptPlayerToChooseCard = function (){
   var cardChoice = parseInt(prompt("Press 1 - 6 to choose a card"));
-  return(this.getCurrentPlayer().hand[cardChoice].title)
+  return(this.getCurrentPlayer().hand[cardChoice - 1].title)
 };
 
-Game.prototype.takeTurns = function(){
+//executes player turn, displays hand, prompts user to choose a card, logs the card the user chose
+Game.prototype.takeTurns = function (){
   this.executeTurn();
   console.log(this.getCurrentPlayer().playerName + ", it's your turn! Choose a card to play!");
   this.displayHand();
-  var cardChoice = this.getPlayerChoice();
-  console.log("You have chosen the " + cardChoice + " card. What would you like to do with it?");
-}
+  cardChoice = this.promptPlayerToChooseCard();
+  console.log("You have chosen the " + cardChoice + " card. Wasn't that fun? THE END.");
+  return cardChoice
+};
+
+
 
 
 
