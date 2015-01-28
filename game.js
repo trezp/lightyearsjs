@@ -28,15 +28,15 @@ function Deck () {
   this.discarded = [];
   //pushes new card instances into this.cards array
   for (var i = 0; i < 10; i++) {
-    this.cards.push(new Card("25miles", 25));
-    this.cards.push(new Card("50miles",50));
-    this.cards.push(new Card("75miles",75));
+    this.cards.push(new Card("25 miles", 25));
+    this.cards.push(new Card("50 miles",50));
+    this.cards.push(new Card("75 miles",75));
   };
   for (var i = 0; i < 12; i++) {
-    this.cards.push(new Card("100miles",100));
+    this.cards.push(new Card("100 miles",100));
   };
   for (var i = 0; i < 4; i++) {
-    this.cards.push(new Card("200miles",200));
+    this.cards.push(new Card("200 miles",200));
   };
   for (var i = 0; i < 5; i++) {
     this.cards.push(new Card("Stop", 0, true, false));
@@ -139,14 +139,24 @@ Game.prototype.getHand = function(){
 Game.prototype.displayHand = function() {
     var cards = this.getCurrentPlayer().hand
     for(var i = 0; i < cards.length; i++){
-      console.log(cards[i].title);
+      console.log([i] + "." + cards[i].title);
     }
 };
 
 Game.prototype.getPlayerChoice = function (){
-  var cardChoice = parseInt(prompt("Press 0 - 5 to choose a card"));
-  console.log(this.getCurrentPlayer().hand[cardChoice])
+  var cardChoice = parseInt(prompt("Press 1 - 6 to choose a card"));
+  return(this.getCurrentPlayer().hand[cardChoice].title)
 };
+
+Game.prototype.takeTurns = function(){
+  this.executeTurn();
+  console.log(this.getCurrentPlayer().playerName + ", it's your turn! Choose a card to play!");
+  this.displayHand();
+  var cardChoice = this.getPlayerChoice();
+  console.log("You have chosen the " + cardChoice + " card. What would you like to do with it?");
+}
+
+
 
   
 function Player(playerName){
