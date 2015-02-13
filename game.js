@@ -1,19 +1,3 @@
-//TO DO
-// playerStack
-// incrementScore 
-// checkScore
-// slowPlayer
-// playCard
-// discardCard
-
-//Current issues: 
-  //player names and individual cards are cumbersome to access
-    //cards are referenced first by hazard or remedy, which isn't helpful to me
-    //or players 
-  //needs to be refactored so everything isn't in the global scope
-
-
-
 
 //Card constructors
 function Card (title, value, stops, slows) {
@@ -204,14 +188,7 @@ game = new Game("Bob", "Joe", "Jim", "Treasure", "Tim");
   // }
   // keepScore();
 
-//Each turn:
-  //draw a card 
-  //play a card or discard a card 
-    //play a go card, a safety card, or a speed limit
-    //you can't fuck over another player unless they are traveling
-  //mileage card: increment score 
-  //safety card: player is able to move 
-  //hazard card: change other player's ability to move 
+
     
 
 
